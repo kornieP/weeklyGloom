@@ -291,7 +291,7 @@ class CardRenderer {
     pg.image(background, 0, 0);
     
     // Draw fireworks or stars based on content
-    if (data.content+data.content_her < 200) {
+    if ((data.content < 100)&(data.content_her<100)) {
       this.drawStars(pg, data);
     } else {
       this.drawFireworks(pg, data);
