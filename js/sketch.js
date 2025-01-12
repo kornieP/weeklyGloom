@@ -104,7 +104,8 @@ class BackgroundSystem {
   }
 
   static renderPaperTexture(pg) {
-    const padfactor = 2e3;
+    //paper texture idea from https://editor.p5js.org/pinky-pig/sketches/3Omb1YMQq
+    const padfactor = 1e3;
     let iterations = 9e3;
     
     pg.push();
@@ -149,6 +150,7 @@ class BackgroundSystem {
 
 // Firework renderer
 class FireworkRenderer {
+  //firework code idea is from https://observablehq.com/@oliviafvane/animated-firework-p5
   static drawFireworks(pg, centerX, centerY, data) {
     // Calculate sizes for both fireworks
     const upperSize = this.calculateFireworkSize(data.content_her);
