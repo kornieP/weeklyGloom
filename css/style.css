@@ -1,0 +1,160 @@
+:root {
+  /* Colors */
+  --bg-color: #f7ecd3;
+  --card-bg: #000;
+  --card-border: #444;
+  --text-color: #000;
+  --overlay-bg: rgba(0, 0, 0, 0.7);
+  /* Sizes - matched to p5.js canvas size */
+  --card-width: 450px;  /* Matched to CARD_WIDTH */
+  --card-height: 750px; /* Matched to CARD_HEIGHT */
+  --card-padding: 20px;
+  --card-gap: 20px;
+  --border-radius: 15px;
+}
+
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.roboto-<uniquifier> {
+  font-family: "Roboto", serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Roboto', serif;
+  min-height: 100vh;
+  margin: 10;
+  padding: 10;
+  text-align: center;
+}
+
+h1 {
+  margin: 5vh;
+  text-align: center;
+  font-weight: 400;
+}
+h2 {
+  margin: 5vh;
+  text-align: center;
+  font-weight: 400;
+}
+
+/* Container for all cards */
+.firework-container {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(auto, var(--card-width))); /* Fixed 4 columns with max width */
+  gap: var(--card-gap);
+  padding: var(--card-padding);
+  width: 100%;
+  max-width: calc(4 * (var(--card-width) + var(--card-gap)));
+  margin: 0 auto;
+  justify-content: center;
+}
+
+/* Individual card styling */
+.firework-card {
+  position: relative;
+  width: var(--card-width);
+  height: var(--card-height);
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Canvas styling */
+.firework-card canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important; /* Override any inline styles */
+  height: 100% !important;
+  object-fit: contain;
+}
+
+/* Responsive Design */
+@media (max-width: 1920px) {
+  .firework-container {
+    grid-template-columns: repeat(4, minmax(auto, var(--card-width)));
+    max-width: calc(4 * (var(--card-width) + var(--card-gap)));
+  }
+}
+
+@media (max-width: 1440px) {
+  .firework-container {
+    grid-template-columns: repeat(2, minmax(auto, var(--card-width)));
+    max-width: calc(2 * (var(--card-width) + var(--card-gap)));
+  }
+}
+
+@media (max-width: 960px) {
+  :root {
+    --card-gap: 15px;
+    --card-padding: 15px;
+  }
+  
+  .firework-container {
+    grid-template-columns: minmax(auto, var(--card-width));
+    max-width: calc(var(--card-width) + 2 * var(--card-padding));
+  }
+}
+
+.page-container {
+  width: 100%;
+  max-width: calc(4 * (var(--card-width) + var(--card-gap)));
+  margin: 0 auto;
+  padding: var(--card-padding);
+  
+}
+
+.guide-container {
+  width: 100%;
+  margin-bottom: var(--card-gap);
+  display: flex;
+  justify-content: right;
+  
+}
+
+.guide-card {
+  width: 100%;
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.guide-card canvas {
+  width: 100% !important;
+  height: auto !important;
+  object-fit: contain;
+  
+}
+
+@media (max-width: 1920px) {
+  .guide-card {
+    max-width: calc(4 * (var(--card-width) + var(--card-gap)));
+  }
+}
+
+@media (max-width: 1440px) {
+  .guide-card {
+    max-width: calc(2 * (var(--card-width) + var(--card-gap)));
+  }
+}
+
+@media (max-width: 960px) {
+  .guide-card {
+    max-width: calc(var(--card-width) + 2 * var(--card-padding));
+  }
+}
