@@ -5,28 +5,25 @@
   --card-border: #444;
   --text-color: #000;
   --overlay-bg: rgba(0, 0, 0, 0.7);
-  /* Sizes - matched to p5.js canvas size */
-  --card-width: 450px;  /* Matched to CARD_WIDTH */
-  --card-height: 750px; /* Matched to CARD_HEIGHT */
-  --card-padding: 20px;
+
+  /* Base canvas dimensions — must match p5.js CONFIG */
+  --canvas-width: 450;
+  --canvas-height: 750;
+
+  /* Layout */
   --card-gap: 20px;
+  --card-padding: 20px;
   --border-radius: 15px;
+  --columns: 4;
 }
 
 /* Reset and Base Styles */
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-.roboto-<uniquifier> {
-  font-family: "Roboto", serif;
-  font-optical-sizing: auto;
-  font-weight: <weight>;
-  font-style: normal;
-  font-variation-settings:
-    "wdth" 100;
 }
 
 body {
@@ -34,97 +31,37 @@ body {
   color: var(--text-color);
   font-family: 'Roboto', serif;
   min-height: 100vh;
-  margin: 10;
-  padding: 10;
+  margin: 0;
+  padding: 10px;
   text-align: center;
 }
 
 h1 {
-  margin: 5vh;
+  margin: 5vh 1rem;
   text-align: center;
   font-weight: 400;
 }
+
 h2 {
-  margin: 5vh;
+  margin: 3vh 1rem 5vh;
   text-align: center;
   font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
-/* Container for all cards */
-.firework-container {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(auto, var(--card-width))); /* Fixed 4 columns with max width */
-  gap: var(--card-gap);
-  padding: var(--card-padding);
-  width: 100%;
-  max-width: calc(4 * (var(--card-width) + var(--card-gap)));
-  margin: 0 auto;
-  justify-content: center;
-}
-
-/* Individual card styling */
-.firework-card {
-  position: relative;
-  width: var(--card-width);
-  height: var(--card-height);
-  background: var(--card-bg);
-  border-radius: var(--border-radius);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
-
-/* Canvas styling */
-.firework-card canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100% !important; /* Override any inline styles */
-  height: 100% !important;
-  object-fit: contain;
-}
-
-/* Responsive Design */
-@media (max-width: 1920px) {
-  .firework-container {
-    grid-template-columns: repeat(4, minmax(auto, var(--card-width)));
-    max-width: calc(4 * (var(--card-width) + var(--card-gap)));
-  }
-}
-
-@media (max-width: 1440px) {
-  .firework-container {
-    grid-template-columns: repeat(2, minmax(auto, var(--card-width)));
-    max-width: calc(2 * (var(--card-width) + var(--card-gap)));
-  }
-}
-
-@media (max-width: 960px) {
-  :root {
-    --card-width: 100%;
-    --card-gap: 15px;
-    --card-padding: 15px;
-  }
-
-  .firework-container {
-    grid-template-columns: 1fr;
-    max-width: 100%;
-  }
-}
-
+/* ─── Page wrapper ─── */
 .page-container {
   width: 100%;
-  max-width: calc(4 * (var(--card-width) + var(--card-gap)));
+  max-width: 1920px;
   margin: 0 auto;
   padding: var(--card-padding);
-  
 }
 
+/* ─── Guide (legend) ─── */
 .guide-container {
   width: 100%;
   margin-bottom: var(--card-gap);
-  display: flex;
-  justify-content: right;
-  
 }
 
 .guide-card {
@@ -136,26 +73,69 @@ h2 {
 }
 
 .guide-card canvas {
+  display: block;
   width: 100% !important;
   height: auto !important;
-  object-fit: contain;
-  
 }
 
-@media (max-width: 1920px) {
-  .guide-card {
-    max-width: calc(4 * (var(--card-width) + var(--card-gap)));
+/* ─── Card grid ─── */
+.firework-container {
+  display: grid;
+  grid-template-columns: repeat(var(--columns), 1fr);
+  gap: var(--card-gap);
+  width: 100%;
+}
+
+/* ─── Individual card ──────────────────────────────
+   Use the aspect-ratio trick so the card always keeps
+   the same proportions as the underlying canvas
+   (450 × 750 = 3:5).  The canvas stretches to fill
+   the card at every viewport width — no dark gaps.
+──────────────────────────────────────────────────── */
+.firework-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--canvas-width) / var(--canvas-height);
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Canvas fills the card completely */
+.firework-card canvas {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* ─── Responsive breakpoints ─── */
+@media (max-width: 1600px) {
+  :root {
+    --columns: 3;
   }
 }
 
-@media (max-width: 1440px) {
-  .guide-card {
-    max-width: calc(2 * (var(--card-width) + var(--card-gap)));
+@media (max-width: 1100px) {
+  :root {
+    --columns: 2;
   }
 }
 
-@media (max-width: 960px) {
-  .guide-card {
-    max-width: 100%;
+@media (max-width: 700px) {
+  :root {
+    --columns: 1;
+    --card-gap: 14px;
+    --card-padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  h2 {
+    font-size: 0.85rem;
   }
 }
